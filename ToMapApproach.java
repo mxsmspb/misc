@@ -7,13 +7,13 @@ public class ToMapApproach {
 
         record Pair<T, U>(T left, U right) { }
 
-        List<Pair<Integer,String>> pairList = new ArrayList<>() {{
-            add(new Pair<>(1,"A"));
-            add(new Pair<>(1,"B"));
-            add(new Pair<>(2,"B"));
-            add(new Pair<>(2,"C"));
-            add(new Pair<>(3,"C"));
-        }};
+        List<Pair<Integer,String>> pairList = Arrays.asList(
+            new Pair<>(1,"A"),
+            new Pair<>(1,"B"),
+            new Pair<>(2,"B"),
+            new Pair<>(2,"C"),
+            new Pair<>(3,"C")
+        );
 
         class GroupedPair<T, U> {
             private T left;
@@ -52,7 +52,7 @@ public class ToMapApproach {
         ).values();
 
         System.out.println(grPairs);
-        
+
         // [GroupedPair{left=1, set=[A, B]}, GroupedPair{left=2, set=[B, C]}, GroupedPair{left=3, set=[C]}]
 
     }
