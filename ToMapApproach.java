@@ -52,6 +52,8 @@ public class ToMapApproach {
         ).values();
 
         System.out.println(grPairs);
+        
+        // [GroupedPairs{left=1, set=[A, B]}, GroupedPairs{left=2, set=[B, C]}, GroupedPairs{left=3, set=[C]}]
 
     }
 }
