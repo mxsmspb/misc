@@ -1,0 +1,57 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class ToMapApproach {
+
+    public static void main(String[] argv) {
+
+        record Pair<T, U>(T left, U right) { }
+
+        List<Pair<Integer,String>> pairList = new ArrayList<>() {{
+            add(new Pair<>(1,"A"));
+            add(new Pair<>(1,"B"));
+            add(new Pair<>(2,"B"));
+            add(new Pair<>(2,"C"));
+            add(new Pair<>(3,"C"));
+        }};
+
+        class GroupedPair<T, U> {
+            private T left;
+            private Set<U> set;
+
+            public GroupedPair(Pair<T, U> pair) {
+                this.left = pair.left;
+                this.set = new HashSet<>();
+                this.set.add(pair.right);
+            }
+
+            private boolean isKeysEqual(GroupedPair<T, U> grPair) {
+                return this.left.equals(grPair.left);
+            }
+
+            public GroupedPair<T, U> addGroupedPair(GroupedPair<T, U> grPair) {
+                // isKeysEqual will always return true, when called from Stream.toMap
+                if (isKeysEqual(grPair)) {
+                    this.set.addAll(grPair.set);
+                }
+                return this;
+            }
+
+            @Override
+            public String toString() {
+                return "GroupedPairs{" +
+                        "left=" + left +
+                        ", set=" + set +
+                        '}';
+            }
+        }
+
+        Collection<GroupedPair<Integer, String>> grPairs = pairList.stream().collect(
+                // toMap(key, creating new value, merging with other value)
+                Collectors.toMap(Pair::left, GroupedPair::new, GroupedPair::addGroupedPair)
+        ).values();
+
+        System.out.println(grPairs);
+
+    }
+}
