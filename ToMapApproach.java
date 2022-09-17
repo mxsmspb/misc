@@ -39,7 +39,7 @@ public class ToMapApproach {
 
             @Override
             public String toString() {
-                return "GroupedPairs{" +
+                return "GroupedPair{" +
                         "left=" + left +
                         ", set=" + set +
                         '}';
@@ -53,7 +53,7 @@ public class ToMapApproach {
 
         System.out.println(grPairs);
         
-        // [GroupedPairs{left=1, set=[A, B]}, GroupedPairs{left=2, set=[B, C]}, GroupedPairs{left=3, set=[C]}]
+        // [GroupedPair{left=1, set=[A, B]}, GroupedPair{left=2, set=[B, C]}, GroupedPair{left=3, set=[C]}]
 
     }
 }
