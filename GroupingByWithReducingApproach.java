@@ -5,7 +5,7 @@ public class GroupingByWithReducingApproach {
 
     public static void main(String[] argv) {
 
-        record Pair<T, U>(T left, U right) { }
+        record Pair<K, V>(K key, V value) { }
 
         List<Pair<Integer,String>> pairList = Arrays.asList(
                 new Pair<>(1,"A"),
@@ -15,27 +15,27 @@ public class GroupingByWithReducingApproach {
                 new Pair<>(3,"C")
         );
 
-        class GroupedPair<T, U> {
-            private T left;
-            private Set<U> set;
+        class GroupedPair<K, V> {
+            private K key;
+            private Set<V> set;
 
             public GroupedPair() { }
 
-            public GroupedPair(Pair<T, U> pair) {
-                this.left = pair.left;
+            public GroupedPair(Pair<K, V> pair) {
+                this.key = pair.key;
                 this.set = new HashSet<>();
-                this.set.add(pair.right);
+                this.set.add(pair.value);
             }
 
-            private boolean isKeysEqual(GroupedPair<T, U> grPair) {
-                return this.left.equals(grPair.left);
+            private boolean isKeysEqual(GroupedPair<K, V> grPair) {
+                return this.key.equals(grPair.key);
             }
 
             private boolean hasNoKey() {
-                return this.left == null;
+                return this.key == null;
             }
 
-            public GroupedPair<T, U> addGroupedPair(GroupedPair<T, U> grPair) {
+            public GroupedPair<K, V> addGroupedPair(GroupedPair<K, V> grPair) {
 
                 if (hasNoKey()) {
                     // The same identity object (new GroupedPair()) created for Collectors.reducing
@@ -57,22 +57,21 @@ public class GroupingByWithReducingApproach {
             @Override
             public String toString() {
                 return "GroupedPair{" +
-                        "left=" + left +
+                        "key=" + key +
                         ", set=" + set +
                         '}';
             }
         }
 
         Collection<GroupedPair<Integer, String>> grPairs = pairList.stream().collect(
-                Collectors.groupingBy(Pair::left,
+                Collectors.groupingBy(Pair::key,
                         Collectors.reducing(new GroupedPair<Integer, String>(),
                                 GroupedPair::new, GroupedPair::addGroupedPair))
         ).values();
 
         System.out.println(grPairs);
 
-        // [GroupedPair{left=1, set=[A, B]}, GroupedPair{left=2, set=[B, C]}, GroupedPair{left=3, set=[C]}]
+        // [GroupedPair{key=1, set=[A, B]}, GroupedPair{key=2, set=[B, C]}, GroupedPair{key=3, set=[C]}]
 
     }
 }
-
