@@ -1,5 +1,6 @@
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 public class ToMapApproach {
 
@@ -20,9 +21,9 @@ public class ToMapApproach {
             final private Set<V> set;
 
             public GroupedPair(Pair<K, V> pair) {
-                this.key = pair.key;
+                this.key = pair.key();
                 this.set = new HashSet<>();
-                this.set.add(pair.value);
+                this.set.add(pair.value());
             }
 
             private boolean isKeyEquals(GroupedPair<K, V> grPair) {
@@ -48,8 +49,12 @@ public class ToMapApproach {
 
         Collection<GroupedPair<Integer, String>> grPairs = pairList.stream().collect(
                 // toMap(key, creating new value, merging with other value)
-                Collectors.toMap(Pair::key, GroupedPair::new, GroupedPair::addGroupedPair)
+                toMap(Pair::key, GroupedPair::new, GroupedPair::addGroupedPair)
         ).values();
+
+        // Optionally we can use collectingAndThen
+        /*Collection<GroupedPair<Integer, String>> grPairs = pairList.stream().collect(
+                collectingAndThen(toMap(Pair::key, GroupedPair::new, GroupedPair::addGroupedPair), Map::values));*/
 
         System.out.println(grPairs);
 

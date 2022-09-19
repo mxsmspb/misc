@@ -19,9 +19,9 @@ public class StreamCollectApproach {
             final private Set<V> set;
 
             public GroupedPair(Pair<K, V> pair) {
-                this.key = pair.key;
+                this.key = pair.key();
                 this.set = new HashSet<>();
-                this.set.add(pair.value);
+                this.set.add(pair.value());
             }
 
             private boolean isKeyEquals(GroupedPair<K, V> grPair) {
@@ -50,11 +50,11 @@ public class StreamCollectApproach {
                 (map, pair) -> {
                     // We also can use Stream.map before collect to eliminate mapping Pair->GroupedPair here
                     GroupedPair<Integer, String> grPair = new GroupedPair<>(pair);
-                    if (!map.containsKey(pair.key)) {
-                        map.put(pair.key, grPair);
+                    if (!map.containsKey(pair.key())) {
+                        map.put(pair.key(), grPair);
                     }
                     else {
-                        map.get(pair.key).addGroupedPair(grPair);
+                        map.get(pair.key()).addGroupedPair(grPair);
                     }
                 }, Map::putAll
         ).values();

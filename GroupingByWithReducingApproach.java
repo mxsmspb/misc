@@ -1,5 +1,6 @@
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 public class GroupingByWithReducingApproach {
 
@@ -25,9 +26,9 @@ public class GroupingByWithReducingApproach {
             }
 
             public GroupedPair(Pair<K, V> pair) {
-                this.key = pair.key;
+                this.key = pair.key();
                 this.set = new HashSet<>();
-                this.set.add(pair.value);
+                this.set.add(pair.value());
             }
 
             private boolean isKeyEquals(GroupedPair<K, V> grPair) {
@@ -67,8 +68,8 @@ public class GroupingByWithReducingApproach {
         }
 
         Collection<GroupedPair<Integer, String>> grPairs = pairList.stream().collect(
-                Collectors.groupingBy(Pair::key,
-                        Collectors.reducing(new GroupedPair<Integer, String>(),
+                groupingBy(Pair::key,
+                        reducing(new GroupedPair<Integer, String>(),
                                 GroupedPair::new, GroupedPair::addGroupedPair))
         ).values();
 
