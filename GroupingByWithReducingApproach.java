@@ -16,10 +16,13 @@ public class GroupingByWithReducingApproach {
         );
 
         class GroupedPair<K, V> {
-            private K key;
-            private Set<V> set;
+            final private K key;
+            final private Set<V> set;
 
-            public GroupedPair() { }
+            public GroupedPair() {
+                key = null;
+                set = null;
+            }
 
             public GroupedPair(Pair<K, V> pair) {
                 this.key = pair.key;
@@ -27,7 +30,7 @@ public class GroupingByWithReducingApproach {
                 this.set.add(pair.value);
             }
 
-            private boolean isKeysEqual(GroupedPair<K, V> grPair) {
+            private boolean isKeyEquals(GroupedPair<K, V> grPair) {
                 return this.key.equals(grPair.key);
             }
 
@@ -45,9 +48,9 @@ public class GroupingByWithReducingApproach {
                     return grPair;
                 }
                 else {
-                    // isKeysEqual will always return true, when called from Stream.toMap
+                    // isKeyEquals will always return true, when called from Stream.toMap
                     // or from Collectors below
-                    if (isKeysEqual(grPair)) {
+                    if (isKeyEquals(grPair)) {
                         this.set.addAll(grPair.set);
                     }
                     return this;

@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class StreamCollectApproach {
 
@@ -16,10 +15,8 @@ public class StreamCollectApproach {
         );
 
         class GroupedPair<K, V> {
-            private K key;
-            private Set<V> set;
-
-            public GroupedPair() { }
+            final private K key;
+            final private Set<V> set;
 
             public GroupedPair(Pair<K, V> pair) {
                 this.key = pair.key;
@@ -27,13 +24,13 @@ public class StreamCollectApproach {
                 this.set.add(pair.value);
             }
 
-            private boolean isKeysEqual(GroupedPair<K, V> grPair) {
+            private boolean isKeyEquals(GroupedPair<K, V> grPair) {
                 return this.key.equals(grPair.key);
             }
 
             public GroupedPair<K, V> addGroupedPair(GroupedPair<K, V> grPair) {
-                // isKeysEqual will always return true, when called from Stream.collect
-                if (isKeysEqual(grPair)) {
+                // isKeyEquals will always return true, when called from Stream.collect
+                if (isKeyEquals(grPair)) {
                     this.set.addAll(grPair.set);
                 }
                 return this;
